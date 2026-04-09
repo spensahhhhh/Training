@@ -1,0 +1,25 @@
+# Clean and wrangle data
+
+## Setup
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(readr)
+```
+
+## Source data
+
+```{r}
+catch_original <- read_csv("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1")
+```
+
+## Clean and reshape data
+
+```{r}
+colnames(catch_original)
+head(catch_original)
+summary(catch_original)
+```
+
+## CLean and reshape data again
