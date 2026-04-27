@@ -7,4 +7,4 @@ This report will analyze blah blah blah
 
 ## Course analyses
 
-- Data Visualization (link coming soon)
+- [Data Visualization](notebooks/data-visualization.html)
