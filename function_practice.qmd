@@ -1,0 +1,95 @@
+---
+title: "Fucntion practice"
+author: "Fern"
+format: html
+---
+
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(purrr)  ### for iteration using map() family of functions
+
+library(palmerpenguins)
+```
+
+
+```{r}
+airtemps <- c(212, 30.3, 78, 32)
+celsius1 <- (airtemps[1] - 32) * 5/9
+
+convert_f_to_c <- function(fahr) {
+    celsius <- (fahr - 32) * 5/9
+    return(celsius)
+}
+
+celsius1a <- convert_f_to_c(fahr = airtemps[1])
+celsius1a == celsius1
+
+convert_f_to_c(fahr = airtemps)
+```
+
+
+```{r}
+convert_temp <- function(t, scale = 'f') {
+    scale = tolower(substr(scale, 1, 1))
+    if(!scale %in% c('c','f')) {
+        stop('Scale must be either "c" or "f"!')
+    }
+    if(scale == 'c') {
+        result <- t * 9/5 + 32
+    } else {
+        result <- (t - 32) * 5/9
+    }
+    return(result)
+}
+
+convert_temp(t = airtemps, scale = 'celsius')
+```
+
+
+
+```{r}
+convert_f_to_c_k <- function(f) {
+  c <- (f - 32) * 5/9
+  k  <- c + 273.15
+  out_list <- list(fahr = f, celsius = c, kelvin = k)
+  return(out_list)
+  print('calculation successful!')
+}
+
+temps_oops <- convert_f_to_c_k(seq(-100, 100, 50))
+```
+
+
+```{r}
+library(palmerpenguins)
+data(penguins)
+spp_vec <- unique(penguins$species)
+
+calc_bill_model <- function(spp, df) {
+    spp_df <- df %>%
+        filter(species == spp)
+    bill_mdl <- lm(bill_length_mm ~ bill_depth_mm, data = spp_df)
+    return(bill_mdl)
+}
+map_results <- purrr::map(.x = spp_vec, .f = calc_bill_model, df = penguins)
+broom::tidy(map_results[[3]])
+lapply_results <- base::lapply(X = spp_vec, FUN = calc_bill_model, df = penguins)
+broom::tidy(lapply_results[[3]])
+```
+
+## Exercise from R fucntion module on day 3 week 2
+
+
+```{r}
+fish_l_to_w <- function(L) {
+    a <- .00057
+    b <- 2.9
+    W <- a * L^b
+    return(round(W, 2))
+}
+test_vec <- c(30, 42, 60)
+fish_l_to_w(L = test_vec)
+```
